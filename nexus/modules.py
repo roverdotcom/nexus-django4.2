@@ -2,8 +2,9 @@ import hashlib
 import logging
 import os
 
-from django.core.urlresolvers import reverse
 from django.utils.six.moves import _thread as thread
+
+from nexus.compat import reverse
 
 
 class NexusModule(object):

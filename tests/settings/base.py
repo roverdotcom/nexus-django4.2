@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 import os
 
+import django
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DEBUG = True
@@ -27,15 +29,19 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 )
 
-MIDDLEWARE_CLASSES = (
+middlewares = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+if django.VERSION > (1, 10):
+    MIDDLEWARE = middlewares
+else:
+    MIDDLEWARE_CLASSES = middlewares
 
 ROOT_URLCONF = 'urls'
 LANGUAGE_CODE = 'en-us'

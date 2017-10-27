@@ -9,7 +9,6 @@ from functools import update_wrapper, wraps
 from django.conf.urls import url
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse, HttpResponseNotModified, HttpResponseRedirect
 from django.utils import six
 from django.utils.http import http_date
@@ -18,7 +17,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.views.static import was_modified_since
 
-from nexus.compat import context_processors, render, render_to_string, subinclude
+from nexus.compat import context_processors, render, render_to_string, reverse, subinclude, user_is_authenticated
 from nexus.conf import nexus_settings
 
 NEXUS_ROOT = os.path.normpath(os.path.dirname(__file__))
@@ -92,7 +91,7 @@ class NexusSite(object):
         """
         @wraps(view)
         def inner(request, *args, **kwargs):
-            if not request.user.is_authenticated():
+            if not user_is_authenticated(request.user):
                 return self.login(request)
             elif not self.has_permission(request, extra_permission):
                 raise PermissionDenied()
@@ -207,7 +206,7 @@ class NexusSite(object):
     @never_cache
     def login(self, request, form_class=None):
         "Login form"
-        if request.user.is_authenticated():
+        if user_is_authenticated(request.user):
             return HttpResponseRedirect(reverse('nexus:index', current_app=self.name))
 
         return HttpResponseRedirect(

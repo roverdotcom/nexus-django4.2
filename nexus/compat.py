@@ -39,3 +39,20 @@ if django.VERSION[:2] >= (1, 9):
         return urls_tuple  # (urls, namespace, name)
 else:
     from django.conf.urls import include as subinclude  # noqa
+
+
+# Django 1.10
+
+def user_is_authenticated(user):
+    is_authenticated = user.is_authenticated
+    if callable(is_authenticated):
+        is_authenticated = is_authenticated()
+    return is_authenticated
+
+
+# Django 2.0
+
+try:
+    from django.urls import reverse  # noqa pragma: no cover
+except ImportError:
+    from django.core.urlresolvers import reverse  # noqa pragma: no cover

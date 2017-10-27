@@ -30,4 +30,4 @@ class NexusHelpersTests(SimpleTestCase):
             {% load show_navigation from nexus_helpers %}
             {% show_navigation %}
         ''').render(RequestContext(request, {'nexus_site': site})).strip()
-        BeautifulSoup(out)  # checks it is valid HTML
+        BeautifulSoup(out, 'html.parser')  # checks it is valid HTML
