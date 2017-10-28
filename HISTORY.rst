@@ -9,6 +9,12 @@ Pending Release
 
 * New release notes here
 
+1.5.1 (2017-10-28)
+------------------
+
+* Added Django 2.0b1 support
+* Tested on Django 1.11 (no changes were necessary)
+
 1.5.0 (2017-01-19)
 ------------------
 
