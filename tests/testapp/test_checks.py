@@ -18,7 +18,7 @@ class ChecksTests(TestCase):
 
     @override_settings(
         NEXUS_SKIP_INSTALLED_APPS_REQUIREMENTS=True,
-        INSTALLED_APPS=INSTALLED_APPS_WITHOUT_AUTH
+        INSTALLED_APPS=INSTALLED_APPS_WITHOUT_AUTH,
     )
     def test_requirements_fail_suppressed(self):
         assert check_requirements([]) == []

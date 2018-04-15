@@ -212,8 +212,8 @@ class NexusSite(object):
         return HttpResponseRedirect(
             '{login}?{get}'.format(
                 login=reverse('admin:login'),
-                get=urllib.parse.urlencode({REDIRECT_FIELD_NAME: request.path})
-            )
+                get=urllib.parse.urlencode({REDIRECT_FIELD_NAME: request.path}),
+            ),
         )
 
     def dashboard(self, request):

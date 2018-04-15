@@ -50,7 +50,7 @@ def show_navigation(context):
                 label = None
             category_link_set[category] = {
                 'label': label,
-                'links': []
+                'links': [],
             }
 
         category_link_set[category]['links'].append((module.get_title(), home_url, active))

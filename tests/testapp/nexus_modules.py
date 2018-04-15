@@ -50,7 +50,7 @@ class SystemStatsModule(nexus.NexusModule):
             'stats': {
                 'num_cpus': multiprocessing.cpu_count(),
                 'platform': platform,
-            }
+            },
         })
 
 
@@ -75,7 +75,7 @@ class StyleGuideModule(nexus.NexusModule):
 
     def index(self, request):
         return self.render_to_response('nexus/styleguide/index.html', {
-            'title': 'Style Guide'
+            'title': 'Style Guide',
         }, request)
 
 
