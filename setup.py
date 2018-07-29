@@ -25,9 +25,9 @@ setup(
     version=version,
     author='Disqus',
     author_email='opensource@disqus.com',
-    maintainer='YPlan',
-    maintainer_email='adam@yplanapp.com',
-    url='https://github.com/yplan/nexus',
+    maintainer='Adam Johnson',
+    maintainer_email='me@adamj.eu',
+    url='https://github.com/adamchainz/nexus',
     description=(
         'Nexus is a pluggable admin application in Django. '
         'It\'s designed to give you a simple design and architecture for building admin applications.'
