@@ -7,10 +7,16 @@ History
 Pending Release
 ---------------
 
-* New release notes here
+.. Insert new release notes below this line
+
+* Nothing pending
+
+1.6.1 (2018-10-17)
+------------------
+
 * Fix Django deprecation warnings
 
-1.5.1 (2017-10-28)
+1.6.0 (2017-10-28)
 ------------------
 
 * Added Django 2.0b1 support
