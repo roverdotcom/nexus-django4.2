@@ -43,11 +43,12 @@ else:
 
 # Django 1.10
 
-def user_is_authenticated(user):
-    is_authenticated = user.is_authenticated
-    if callable(is_authenticated):
-        is_authenticated = is_authenticated()
-    return is_authenticated
+if django.VERSION >= (1, 10):
+    def user_is_authenticated(user):
+        return user.is_authenticated
+else:
+    def user_is_authenticated(user):
+        return user.is_authenticated()
 
 
 # Django 2.0

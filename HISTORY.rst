@@ -8,6 +8,7 @@ Pending Release
 ---------------
 
 * New release notes here
+* Fix Django deprecation warnings
 
 1.5.1 (2017-10-28)
 ------------------
