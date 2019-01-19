@@ -32,4 +32,4 @@ pytest==4.1.1
 pytz==2018.9
 scandir==1.9.0            # via pathlib2
 six==1.12.0               # via more-itertools, multilint, pathlib2, pytest
-soupsieve==1.7            # via beautifulsoup4
+soupsieve==1.7.2          # via beautifulsoup4
