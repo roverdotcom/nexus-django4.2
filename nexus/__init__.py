@@ -7,7 +7,7 @@ from django.utils.module_loading import autodiscover_modules
 from nexus.modules import NexusModule
 from nexus.sites import NexusSite, site
 
-__version__ = '1.6.1'
+__version__ = '2.0.0'
 VERSION = __version__
 __all__ = ('autodiscover', 'NexusSite', 'NexusModule', 'site')
 
