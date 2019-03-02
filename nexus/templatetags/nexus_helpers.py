@@ -1,7 +1,6 @@
 from collections import OrderedDict
 
 from django import template
-from django.utils import six
 
 import nexus
 from nexus.conf import nexus_settings
@@ -30,7 +29,7 @@ def show_navigation(context):
         'links': [],
     }) for k, v in site.get_categories()])
 
-    for namespace, module in six.iteritems(site._registry):
+    for namespace, module in site._registry.items():
         module, category = module
 
         if module.permission and not request.user.has_perm(module.permission):
@@ -58,5 +57,5 @@ def show_navigation(context):
 
     return {
         'nexus_site': site,
-        'category_link_set': six.itervalues(category_link_set),
+        'category_link_set': list(category_link_set.values()),
     }

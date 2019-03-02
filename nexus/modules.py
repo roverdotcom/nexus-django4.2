@@ -1,8 +1,7 @@
 import hashlib
 import logging
 import os
-
-from django.utils.six.moves import _thread as thread
+import threading
 
 from nexus.compat import reverse
 
@@ -42,14 +41,14 @@ class NexusModule(object):
 
     @classmethod
     def set_global(cls, key, value):
-        ident = thread.get_ident()
+        ident = threading.get_ident()
         if ident not in cls._globals:
             cls._globals[ident] = {}
         cls._globals[ident][key] = value
 
     @classmethod
     def get_global(cls, key):
-        return cls._globals.get(thread.get_ident(), {}).get(key)
+        return cls._globals.get(threading.get_ident(), {}).get(key)
 
     def render_to_string(self, template, context={}, request=None):
         context.update(self.get_context(request))
