@@ -11,12 +11,15 @@ from django.conf.urls import url
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseNotModified, HttpResponseRedirect
+from django.shortcuts import render
+from django.template import context_processors
+from django.template.loader import render_to_string
 from django.utils.http import http_date
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.views.static import was_modified_since
 
-from nexus.compat import context_processors, render, render_to_string, reverse, subinclude, user_is_authenticated
+from nexus.compat import reverse
 from nexus.conf import nexus_settings
 
 NEXUS_ROOT = os.path.normpath(os.path.dirname(__file__))
@@ -52,18 +55,21 @@ class NexusSite(object):
             del self._registry[namespace]
 
     def get_urls(self):
-        base_urls = [
-            url(r'^media/(?P<module>[^/]+)/(?P<path>.+)$', self.media, name='media'),
-
-            url(r'^$', self.as_view(self.dashboard), name='index'),
-        ], self.app_name, self.name
+        base_urls = (
+            [
+                url(r'^media/(?P<module>[^/]+)/(?P<path>.+)$', self.media, name='media'),
+                url(r'^$', self.as_view(self.dashboard), name='index'),
+            ],
+            self.app_name,
+            self.name,
+        )
 
         urlpatterns = [
-            url(r'^', subinclude(base_urls)),
+            url(r'^', base_urls),
         ]
         for namespace, module in self.get_modules():
             urlpatterns += [
-                url(r'^%s/' % namespace, subinclude(module.urls)),
+                url(r'^%s/' % namespace, module.urls),
             ]
 
         return urlpatterns
@@ -90,7 +96,7 @@ class NexusSite(object):
         """
         @wraps(view)
         def inner(request, *args, **kwargs):
-            if not user_is_authenticated(request.user):
+            if not request.user.is_authenticated:
                 return self.login(request)
             elif not self.has_permission(request, extra_permission):
                 raise PermissionDenied()
@@ -205,7 +211,7 @@ class NexusSite(object):
     @never_cache
     def login(self, request, form_class=None):
         "Login form"
-        if user_is_authenticated(request.user):
+        if request.user.is_authenticated:
             return HttpResponseRedirect(reverse('nexus:index', current_app=self.name))
 
         return HttpResponseRedirect(
