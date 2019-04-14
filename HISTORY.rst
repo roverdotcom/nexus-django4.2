@@ -9,6 +9,9 @@ Pending Release
 
 .. Insert new release notes below this line
 
+2.1.0 (2019-04-14)
+------------------
+
 * Drop Django 1.8, 1.9, and 1.10 support. Only Django 1.11+ is supported now.
 
 2.0.0 (2019-03-02)
