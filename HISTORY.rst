@@ -9,6 +9,9 @@ Pending Release
 
 .. Insert new release notes below this line
 
+2.1.1 (2019-04-28)
+------------------
+
 * Tested on Django 2.2. No changes were needed for compatibility.
 
 2.1.0 (2019-04-14)
