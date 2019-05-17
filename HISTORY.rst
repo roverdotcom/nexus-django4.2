@@ -9,6 +9,12 @@ Pending Release
 
 .. Insert new release notes below this line
 
+* **Retired: this project is no longer maintained.** I (Adam Johnson) no longer
+  have time to continue maintaining this. I was doing so to support
+  `gargoyle-yplan <https://github.com/adamchainz/gargoyle>`__, a fork for my
+  ex-employer YPlan. If you'd like to sponsor ongoing maintenance or take it
+  over yourself, please contact me@adamj.eu.
+
 2.1.1 (2019-04-28)
 ------------------
 

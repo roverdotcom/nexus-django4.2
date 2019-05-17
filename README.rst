@@ -8,6 +8,12 @@ Nexus
 .. image:: https://travis-ci.org/adamchainz/nexus.svg?branch=master
         :target: https://travis-ci.org/adamchainz/nexus
 
+**Retired: this project is no longer maintained.** I (Adam Johnson) no longer
+have time to continue maintaining this. I was doing so to support
+`gargoyle-yplan <https://github.com/adamchainz/gargoyle>`__, a fork for my
+ex-employer YPlan. If you'd like to sponsor ongoing maintenance or take it over
+yourself, please contact me@adamj.eu.
+
 Nexus is a pluggable admin application in Django. It's designed to give you a simple design and architecture for
 building admin applications.
 
