@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
 from django.template import Context, RequestContext, Template
-from django.test import RequestFactory, SimpleTestCase
+from django.test import RequestFactory, TestCase
 
 import nexus
 from nexus.sites import site
 
 
-class NexusHelpersTests(SimpleTestCase):
+class NexusHelpersTests(TestCase):
 
     request_factory = RequestFactory()
 

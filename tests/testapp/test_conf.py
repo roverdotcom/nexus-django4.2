@@ -1,10 +1,10 @@
-from django.test import SimpleTestCase
+from django.test import TestCase
 from django.test.utils import override_settings
 
 from nexus.conf import nexus_settings
 
 
-class NexusSettingsTests(SimpleTestCase):
+class NexusSettingsTests(TestCase):
 
     @override_settings(NEXUS_MEDIA_PREFIX='/mynexusprefix/')
     def test_with_override_settings(self):
