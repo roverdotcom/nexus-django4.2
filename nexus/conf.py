@@ -5,6 +5,7 @@ class Settings(object):
     """
     Shadow Django's settings with a little logic
     """
+
     @property
     def MEDIA_PREFIX(self):
         prefix = getattr(settings, 'NEXUS_MEDIA_PREFIX', '/nexus/media/')

@@ -2,6 +2,7 @@
 Nexus
 ~~~~~
 """
+
 from django.utils.module_loading import autodiscover_modules
 
 from nexus.modules import NexusModule

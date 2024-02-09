@@ -95,6 +95,7 @@ class NexusSite(object):
 
         extra_permission can be used to require an extra permission for this view, such as a module permission
         """
+
         @wraps(view)
         def inner(request, *args, **kwargs):
             if not request.user.is_authenticated:
@@ -118,11 +119,13 @@ class NexusSite(object):
 
     def get_context(self, request):
         context = context_processors.csrf(request)
-        context.update({
-            'request': request,
-            'nexus_site': self,
-            'nexus_media_prefix': nexus_settings.MEDIA_PREFIX.rstrip('/'),
-        })
+        context.update(
+            {
+                'request': request,
+                'nexus_site': self,
+                'nexus_media_prefix': nexus_settings.MEDIA_PREFIX.rstrip('/'),
+            }
+        )
         return context
 
     def get_modules(self):
@@ -232,9 +235,13 @@ class NexusSite(object):
                 if not module.permission or request.user.has_perm(module.permission):
                     module_set.append((module.get_dashboard_title(), module.render_on_dashboard(request), home_url))
 
-        return self.render_to_response('nexus/dashboard.html', {
-            'module_set': module_set,
-        }, request)
+        return self.render_to_response(
+            'nexus/dashboard.html',
+            {
+                'module_set': module_set,
+            },
+            request,
+        )
 
 
 # setup the default site

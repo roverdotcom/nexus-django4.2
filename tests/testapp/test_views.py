@@ -39,8 +39,9 @@ class ViewTests(TestCase):
         assert resp.status_code == 200
 
     def test_media_modified_since(self):
-        resp = self.client.get('/nexus/media/nexus/img/nexus_logo.png',
-                               HTTP_IF_MODIFIED_SINCE='Wed, 25 Feb 2065 17:42:04 GMT')
+        resp = self.client.get(
+            '/nexus/media/nexus/img/nexus_logo.png', HTTP_IF_MODIFIED_SINCE='Wed, 25 Feb 2065 17:42:04 GMT'
+        )
         assert resp.status_code == 304
 
     def test_media_non_existent(self):
