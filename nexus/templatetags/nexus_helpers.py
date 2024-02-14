@@ -24,10 +24,18 @@ def show_navigation(context):
     site = context.get('nexus_site', NexusModule.get_global('site'))
     request = context['request']
 
-    category_link_set = OrderedDict([(k, {
-        'label': v,
-        'links': [],
-    }) for k, v in site.get_categories()])
+    category_link_set = OrderedDict(
+        [
+            (
+                k,
+                {
+                    'label': v,
+                    'links': [],
+                },
+            )
+            for k, v in site.get_categories()
+        ]
+    )
 
     for namespace, module in site._registry.items():
         module, category = module

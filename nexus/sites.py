@@ -7,13 +7,14 @@ import urllib
 from collections import OrderedDict
 from functools import update_wrapper, wraps
 
-from django.conf.urls import url
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseNotModified, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import context_processors
 from django.template.loader import render_to_string
+from django.urls import re_path
+from django.utils.decorators import method_decorator
 from django.utils.http import http_date
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
@@ -57,19 +58,19 @@ class NexusSite(object):
     def get_urls(self):
         base_urls = (
             [
-                url(r'^media/(?P<module>[^/]+)/(?P<path>.+)$', self.media, name='media'),
-                url(r'^$', self.as_view(self.dashboard), name='index'),
+                re_path(r'^media/(?P<module>[^/]+)/(?P<path>.+)$', self.media, name='media'),
+                re_path(r'^$', self.as_view(self.dashboard), name='index'),
             ],
             self.app_name,
             self.name,
         )
 
         urlpatterns = [
-            url(r'^', base_urls),
+            re_path(r'^', base_urls),
         ]
         for namespace, module in self.get_modules():
             urlpatterns += [
-                url(r'^%s/' % namespace, module.urls),
+                re_path(r'^%s/' % namespace, module.urls),
             ]
 
         return urlpatterns
@@ -94,6 +95,7 @@ class NexusSite(object):
 
         extra_permission can be used to require an extra permission for this view, such as a module permission
         """
+
         @wraps(view)
         def inner(request, *args, **kwargs):
             if not request.user.is_authenticated:
@@ -117,11 +119,13 @@ class NexusSite(object):
 
     def get_context(self, request):
         context = context_processors.csrf(request)
-        context.update({
-            'request': request,
-            'nexus_site': self,
-            'nexus_media_prefix': nexus_settings.MEDIA_PREFIX.rstrip('/'),
-        })
+        context.update(
+            {
+                'request': request,
+                'nexus_site': self,
+                'nexus_media_prefix': nexus_settings.MEDIA_PREFIX.rstrip('/'),
+            }
+        )
         return context
 
     def get_modules(self):
@@ -199,8 +203,7 @@ class NexusSite(object):
         # Respect the If-Modified-Since header.
         statobj = os.stat(fullpath)
         mimetype = mimetypes.guess_type(fullpath)[0] or 'application/octet-stream'
-        if not was_modified_since(request.META.get('HTTP_IF_MODIFIED_SINCE'),
-                                  statobj[stat.ST_MTIME], statobj[stat.ST_SIZE]):
+        if not was_modified_since(request.META.get('HTTP_IF_MODIFIED_SINCE'), statobj[stat.ST_MTIME]):
             return HttpResponseNotModified(content_type=mimetype)
         contents = open(fullpath, 'rb').read()
         response = HttpResponse(contents, content_type=mimetype)
@@ -208,7 +211,7 @@ class NexusSite(object):
         response["Content-Length"] = len(contents)
         return response
 
-    @never_cache
+    @method_decorator(never_cache)
     def login(self, request, form_class=None):
         "Login form"
         if request.user.is_authenticated:
@@ -232,9 +235,13 @@ class NexusSite(object):
                 if not module.permission or request.user.has_perm(module.permission):
                     module_set.append((module.get_dashboard_title(), module.render_on_dashboard(request), home_url))
 
-        return self.render_to_response('nexus/dashboard.html', {
-            'module_set': module_set,
-        }, request)
+        return self.render_to_response(
+            'nexus/dashboard.html',
+            {
+                'module_set': module_set,
+            },
+            request,
+        )
 
 
 # setup the default site

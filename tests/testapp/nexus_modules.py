@@ -1,7 +1,7 @@
 import multiprocessing
 import platform
 
-from django.conf.urls import url
+from django.urls import re_path
 
 import nexus
 
@@ -15,18 +15,25 @@ class HelloWorldModule(nexus.NexusModule):
 
     def get_urls(self):
         return [
-            url(r'^$', self.as_view(self.index), name='index'),
+            re_path(r'^$', self.as_view(self.index), name='index'),
         ]
 
     def render_on_dashboard(self, request):
-        return self.render_to_string('nexus/example/dashboard.html', {
-            'title': 'Hello World',
-        })
+        return self.render_to_string(
+            'nexus/example/dashboard.html',
+            {
+                'title': 'Hello World',
+            },
+        )
 
     def index(self, request):
-        return self.render_to_response("nexus/example/index.html", {
-            'title': 'Hello World',
-        }, request)
+        return self.render_to_response(
+            "nexus/example/index.html",
+            {
+                'title': 'Hello World',
+            },
+            request,
+        )
 
 
 nexus.site.register(HelloWorldModule, 'hello-world')
@@ -40,18 +47,22 @@ class SystemStatsModule(nexus.NexusModule):
     Modules don't need to have URLs, they can just appear on the dashboard -
     simply don't name `home_url` or implement `get_urls()`.
     """
+
     name = 'system-stats'
 
     def get_title(self):
         return 'System Stats'
 
     def render_on_dashboard(self, request):
-        return self.render_to_string('nexus/system-stats/dashboard.html', {
-            'stats': {
-                'num_cpus': multiprocessing.cpu_count(),
-                'platform': platform,
+        return self.render_to_string(
+            'nexus/system-stats/dashboard.html',
+            {
+                'stats': {
+                    'num_cpus': multiprocessing.cpu_count(),
+                    'platform': platform,
+                },
             },
-        })
+        )
 
 
 nexus.site.register(SystemStatsModule, 'system-stats')
@@ -62,6 +73,7 @@ class StyleGuideModule(nexus.NexusModule):
     Modules can also not appear on the dashboard, but not implementing
     render_on_dashboard, and only have URLs.
     """
+
     home_url = 'index'
     name = 'style-guide'
 
@@ -70,13 +82,17 @@ class StyleGuideModule(nexus.NexusModule):
 
     def get_urls(self):
         return [
-            url(r'^$', self.as_view(self.index), name='index'),
+            re_path(r'^$', self.as_view(self.index), name='index'),
         ]
 
     def index(self, request):
-        return self.render_to_response('nexus/styleguide/index.html', {
-            'title': 'Style Guide',
-        }, request)
+        return self.render_to_response(
+            'nexus/styleguide/index.html',
+            {
+                'title': 'Style Guide',
+            },
+            request,
+        )
 
 
 nexus.site.register(StyleGuideModule, 'style-guide')
